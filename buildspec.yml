@@ -10,7 +10,7 @@ phases:
   post_build:
     commands:
       - echo "Subiendo archivos a S3"
-      - aws s3 cp . s3://TU-BUCKET-NOMBRE/ --recursive --exclude ".git/*" --exclude "buildspec.yml" --acl public-read
+      - aws s3 cp . s3://cicd-web-jdavid/ --recursive --exclude ".git/*" --exclude "buildspec.yml" --acl public-read
 
 artifacts:
   files:
