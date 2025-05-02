@@ -3,128 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Pipeline CI/CD en AWS</title>
+  <title>Laboratorio CI/CD AWS | S3 + CodePipeline + CodeBuild</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container py-4">
-    <header class="text-center mb-5">
-      <h1 class="text-primary fw-bold">🚀 Mi Pipeline CI/CD en AWS</h1>
-      <p class="lead">Cómo configuré un flujo de despliegue automático usando CodePipeline, CodeBuild y S3</p>
+    <!-- Header -->
+    <header class="text-center mb-4 p-4 bg-light rounded border">
+      <h1 class="text-primary mb-3">🛠️ Laboratorio CI/CD en AWS</h1>
+      <p class="lead mb-0">Implementación automatizada con S3, CodePipeline y CodeBuild</p>
+      
+      <!-- Sección de cambios recientes -->
+      <div class="mt-4 p-3 bg-white rounded border">
+        <h5 class="text-muted mb-2">📝 Cambios recientes:</h5>
+        <ul id="changes-list" class="list-unstyled small">
+          <li><span class="badge bg-secondary">v1.0.0</span> Configuración inicial del pipeline</li>
+        </ul>
+      </div>
     </header>
 
     <div class="row">
-      <!-- Explicación técnica -->
-      <div class="col-md-8">
-        <section class="mb-5">
-          <h2 class="border-bottom pb-2">📋 Qué he implementado</h2>
-          <p>Un pipeline automatizado que:</p>
+      <!-- Descripción del proyecto -->
+      <div class="col-lg-6 mb-4">
+        <div class="p-4 bg-light rounded border h-100">
+          <h2 class="h4 mb-3">🔍 Sobre este proyecto</h2>
+          <p>Este es un laboratorio práctico que demuestra un flujo básico de CI/CD en AWS:</p>
           <ol>
-            <li>Detecta cambios en GitHub (push)</li>
-            <li>Construye la aplicación usando CodeBuild</li>
-            <li>Despliega los cambios en un bucket S3</li>
+            <li class="mb-2">El código fuente se aloja en GitHub</li>
+            <li class="mb-2">AWS CodePipeline detecta cambios mediante webhook</li>
+            <li class="mb-2">AWS CodeBuild procesa los archivos según buildspec.yml</li>
+            <li>Los artefactos se despliegan automáticamente en un bucket S3</li>
           </ol>
-        </section>
+          <div class="alert alert-info mt-3">
+            <strong>💡 Nota:</strong> Cada <code>git push</code> en la rama principal activa el pipeline completo.
+          </div>
+        </div>
+      </div>
 
-        <section class="mb-5">
-          <h2 class="border-bottom pb-2">🔧 Pasos técnicos detallados</h2>
+      <!-- Configuración técnica -->
+      <div class="col-lg-6 mb-4">
+        <div class="p-4 bg-light rounded border h-100">
+          <h2 class="h4 mb-3">⚙️ Configuración técnica</h2>
           
-          <div class="step-card p-3 mb-3 bg-light rounded">
-            <h4 class="text-success">1. Configuración inicial en AWS</h4>
-            <ul>
-              <li>Creado bucket S3 con hosting web habilitado</li>
-              <li>Configurado permisos públicos (Bucket Policy)</li>
-              <li>Subido manualmente los archivos iniciales</li>
+          <div class="mb-3">
+            <h3 class="h5 text-success">1. Bucket S3</h3>
+            <ul class="small">
+              <li>Hosting web estático habilitado</li>
+              <li>Política de bucket pública configurada</li>
+              <li>Acceso directo via URL de S3</li>
             </ul>
           </div>
-
-          <div class="step-card p-3 mb-3 bg-light rounded">
-            <h4 class="text-success">2. Integración con GitHub</h4>
-            <ul>
-              <li>Creado conexión OAuth en AWS CodePipeline</li>
-              <li>Seleccionado repositorio y rama (main)</li>
-              <li>Configurado webhook para detectar cambios</li>
+          
+          <div class="mb-3">
+            <h3 class="h5 text-success">2. Pipeline AWS</h3>
+            <ul class="small">
+              <li>Origen: Conexión con repositorio GitHub</li>
+              <li>Etapa de build con CodeBuild</li>
+              <li>Despliegue automático a S3</li>
             </ul>
           </div>
-
-          <div class="step-card p-3 mb-3 bg-light rounded">
-            <h4 class="text-success">3. Configuración de CodeBuild</h4>
-            <ul>
-              <li>Creado archivo <code>buildspec.yml</code>:</li>
-              <pre class="bg-dark text-white p-2 rounded">version: 0.2
+          
+          <div class="mb-3">
+            <h3 class="h5 text-success">3. Archivo buildspec.yml</h3>
+            <pre class="bg-dark text-white p-2 rounded small">version: 0.2
 phases:
   build:
     commands:
-      - echo "Build started"
-      - aws s3 sync . s3://mi-bucket --delete</pre>
-              <li>Seleccionado entorno estándar: Amazon Linux 2</li>
-            </ul>
-          </div>
-
-          <div class="step-card p-3 mb-3 bg-light rounded">
-            <h4 class="text-success">4. Permisos IAM</h4>
-            <ul>
-              <li>Creado rol para CodeBuild con permisos para S3</li>
-              <li>Política adjuntada: <code>AmazonS3FullAccess</code></li>
-              <li>Verificado que el servicio de confianza es CodeBuild</li>
-            </ul>
-          </div>
-        </section>
-      </div>
-
-      <!-- Zona de pruebas -->
-      <div class="col-md-4">
-        <div class="p-4 bg-light rounded border">
-          <h3 class="text-center mb-3">🧪 Área de Pruebas</h3>
-          
-          <div class="mb-3 p-3 bg-white rounded border">
-            <h5 class="text-muted">Versión actual:</h5>
-            <h2 id="version" class="text-success">v1.0.0</h2>
-            <p id="version-desc" class="small">Versión inicial del proyecto</p>
-          </div>
-
-          <div class="mb-3 p-3 bg-white rounded border">
-            <h5 class="text-muted">Últimos cambios:</h5>
-            <ul id="changes-list" class="small">
-              <li>Initial commit</li>
-            </ul>
-          </div>
-
-          <div class="p-3 bg-white rounded border">
-            <h5 class="text-muted">Demostración:</h5>
-            <div id="demo-area" class="p-2 bg-info bg-opacity-10 rounded">
-              <p id="demo-text">Este texto cambiará con cada despliegue automático</p>
-            </div>
-            <button onclick="simulateDeploy()" class="btn btn-sm btn-primary mt-2">Simular cambio</button>
+      - echo "Iniciando construcción..."
+      - aws s3 sync . s3://$S3_BUCKET --delete</pre>
           </div>
         </div>
       </div>
     </div>
 
-    <footer class="mt-5 pt-3 border-top">
-      <p class="text-muted small">Proyecto creado para demostrar conocimientos básicos de CI/CD en AWS - Configurado desde la consola</p>
+    <!-- Zona de demostración -->
+    <div class="row">
+      <div class="col-12">
+        <div class="p-4 bg-light rounded border mb-4">
+          <h2 class="h4 mb-3">🧪 Demostración del pipeline</h2>
+          <p>Esta sección se actualiza automáticamente con cada despliegue:</p>
+          
+          <div class="p-3 bg-white rounded border">
+            <div class="row">
+              <div class="col-md-4 mb-3 mb-md-0">
+                <h3 class="h5 text-center">Versión actual</h3>
+                <h2 id="current-version" class="text-center text-success">v1.0.0</h2>
+              </div>
+              <div class="col-md-8">
+                <h3 class="h5">Último cambio desplegado</h3>
+                <div id="demo-content" class="p-3 bg-light rounded">
+                  <p class="mb-0">Contenido inicial. Este texto cambiará con cada actualización del pipeline.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button onclick="simulatePipeline()" class="btn btn-primary mt-3">Simular git push</button>
+          <p class="small text-muted mt-2">(Este botón simula lo que ocurre al hacer push en GitHub)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-4 pt-3 border-top">
+      <p class="small text-muted">
+        Proyecto de laboratorio CI/CD - Configurado en instancia Ubuntu - AWS Services: S3, CodePipeline, CodeBuild
+      </p>
     </footer>
   </div>
 
   <script>
-    function simulateDeploy() {
-      const versions = [
-        { v: "v1.1.0", desc: "Añadido buildspec.yml", change: "Configuración inicial de CodeBuild" },
-        { v: "v1.2.0", desc: "Permisos IAM configurados", change: "Ahora CodeBuild puede escribir en S3" },
-        { v: "v2.0.0", desc: "Pipeline completo", change: "Todo el flujo automatizado funciona" }
+    function simulatePipeline() {
+      const changes = [
+        { version: "v1.1.0", description: "Añadida configuración de CodeBuild", detail: "Se implementó el archivo buildspec.yml básico" },
+        { version: "v1.2.0", description: "Configuración de permisos IAM", detail: "Se agregaron permisos para escritura en S3" },
+        { version: "v2.0.0", description: "Pipeline completo operativo", detail: "Todo el flujo CI/CD funciona correctamente" },
+        { version: "v2.1.0", description: "Mejoras en la página", detail: "Se agregó esta sección de demostración" }
       ];
       
-      const randomVer = versions[Math.floor(Math.random() * versions.length)];
+      const change = changes[Math.floor(Math.random() * changes.length)];
       
-      document.getElementById('version').textContent = randomVer.v;
-      document.getElementById('version-desc').textContent = randomVer.desc;
-      document.getElementById('demo-text').textContent = 
-        `Cambio simulado (${randomVer.v}): ${randomVer.change}`;
+      // Actualizar versión
+      document.getElementById('current-version').textContent = change.version;
       
-      const newChange = document.createElement('li');
-      newChange.textContent = `${randomVer.v}: ${randomVer.change}`;
-      document.getElementById('changes-list').prepend(newChange);
+      // Actualizar contenido de demostración
+      document.getElementById('demo-content').innerHTML = `
+        <p class="mb-0"><strong>${change.version}:</strong> ${change.detail}</p>
+      `;
+      
+      // Agregar al historial de cambios
+      const changeItem = document.createElement('li');
+      changeItem.innerHTML = `<span class="badge bg-primary">${change.version}</span> ${change.description}`;
+      document.getElementById('changes-list').prepend(changeItem);
+      
+      // Mostrar notificación
+      const alert = document.createElement('div');
+      alert.className = 'alert alert-success alert-dismissible fade show mt-3';
+      alert.innerHTML = `
+        <strong>¡Pipeline ejecutado!</strong> Se ha desplegado la versión ${change.version}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      document.querySelector('.container').prepend(alert);
     }
   </script>
 </body>
