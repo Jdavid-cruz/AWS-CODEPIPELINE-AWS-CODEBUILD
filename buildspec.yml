@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Instalando dependencias (no hay ninguna en este caso)"
+  build:
+    commands:
+      - echo "Construyendo proyecto (en este caso, nada que compilar)"
+  post_build:
+    commands:
+      - echo "Subiendo archivos a S3"
+      - aws s3 cp . s3://TU-BUCKET-NOMBRE/ --recursive --exclude ".git/*" --exclude "buildspec.yml" --acl public-read
+
+artifacts:
+  files:
+    - '**/*'
