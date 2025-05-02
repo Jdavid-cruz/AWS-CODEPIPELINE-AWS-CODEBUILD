@@ -9,9 +9,10 @@ phases:
       - echo "Construyendo proyecto (en este caso, nada que compilar)"
   post_build:
     commands:
-      - echo "Subiendo archivos a S3"
-      - aws s3 cp . s3://cicd-web-jdavid/ --recursive --exclude ".git/*" --exclude "buildspec.yml" --acl public-read
+      - echo "Fase post_build finalizada"
 
 artifacts:
   files:
     - '**/*'
+  discard-paths: yes
+  base-directory: .
